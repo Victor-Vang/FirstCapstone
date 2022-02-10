@@ -8,5 +8,15 @@ namespace Capstone.Classes
     {
         // This class should contain the definition for one catering item
 
+        //todo items need a name and price (and type, code??)
+        //todo add reminder message based on product type
+        /*
+        * Beverages should recommend "Don't forget Ice."
+        * Entrees should recommend "Did you remember Dessert?"
+        * Desserts should recommend "Coffee goes with dessert."
+        * Appetizers should recommend "You might need extra plates."
+        */
+
+
     }
 }
