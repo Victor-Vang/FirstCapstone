@@ -9,7 +9,7 @@ namespace Capstone.Classes
         // This class should contain the definition for one catering item
 
         public string Name { get; set; } 
-        public decimal Price { get; set; }
+        public double Price { get; set; }
         public string Type { get; set; }
         public string ProductCode { get; set; }
         public int Quantity { get; set; } = 25;

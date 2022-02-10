@@ -15,7 +15,7 @@ namespace Capstone.Classes
 
         public List<CateringItem> GetItemsFromFile()
         {
-        List<CateringItem> itemsFromList = new List<CateringItem>();
+        List<CateringItem> itemsFromTextFile = new List<CateringItem>();
 
             using (StreamReader sr = new StreamReader(filePath))
             {
@@ -29,12 +29,12 @@ namespace Capstone.Classes
                     cateringItem.Type = split[0];
                     cateringItem.ProductCode = split[1];
                     cateringItem.Name = split[2];
-                    cateringItem.Price = decimal.Parse(split[3]);
+                    cateringItem.Price = double.Parse(split[3]);
 
-                    itemsFromList.Add(cateringItem);
+                    itemsFromTextFile.Add(cateringItem);
                 }
             }
-            return itemsFromList;
+            return itemsFromTextFile;
         }
 
 

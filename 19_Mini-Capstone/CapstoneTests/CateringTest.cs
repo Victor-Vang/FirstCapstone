@@ -16,6 +16,9 @@ namespace CapstoneTests
 
             //Assert
             Assert.IsNotNull(catering);
+
+            
+
         }
     }
 }
