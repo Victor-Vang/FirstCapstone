@@ -8,7 +8,9 @@ namespace Capstone.Classes
     {
         // This class should contain all the "work" for catering
 
-        private List<CateringItem> items = new List<CateringItem>();
+        //private List<CateringItem> items = new List<CateringItem>();
+
+        private Dictionary<string, CateringItem> items = new Dictionary<string, CateringItem>();
         
         //todo when initializing list, all items should be stocked w/ 25 Qty
         //todo method OrderItem() that removes selected items from running list of catering items 

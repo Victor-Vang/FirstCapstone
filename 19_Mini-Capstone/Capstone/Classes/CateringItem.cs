@@ -8,7 +8,14 @@ namespace Capstone.Classes
     {
         // This class should contain the definition for one catering item
 
-        //todo items need a name and price (and type, code??)
+        public string Name { get; set; }
+        public decimal Price { get; set; }
+        public string Type { get; set; }
+        public string ProductCode { get; set; }
+
+
+          
+
         //todo add reminder message based on product type
         /*
         * Beverages should recommend "Don't forget Ice."
