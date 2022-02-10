@@ -11,5 +11,16 @@ namespace Capstone.Classes
         private string filePath = @"C:\Catering";
 
         // This class should contain any and all details of access to files
+
+        //todo create a method that creates list of catering items that is constructed from file
+        //todo create AuditAddMoney() that writes to file -ADD MONEY
+        //todo create AuditGiveChange() that writes to file - GIVE CHANGE 
+        //todo create AuditItemsBought() that writes to file - NUMBER_ORDERED PRODUCT_NAME  PRODUCT_CODE
+        
+
+
+
+
+
     }
 }
