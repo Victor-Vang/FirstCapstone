@@ -20,9 +20,13 @@ namespace Capstone.Classes
 
         private Catering catering = new Catering();
 
-        private void UserInput()
+        public void RunInterface()
         {
+
+            catering.InitialListCreation();
+
             bool done = false;
+            
             while (!done)
             {
                 MainMenu();
@@ -33,8 +37,10 @@ namespace Capstone.Classes
                 {
                     case "1":
                         DisplayList();
+                        break;
                     case "2":
                         SubMenu();
+                        break;
                     case "3":
                         done = true;
                         break;
@@ -44,20 +50,16 @@ namespace Capstone.Classes
                 }
             }
         }
+        //todo The list of catering items displayed must be formatted so columns align
 
 
-        //todo call a method that creates list of catering items that is constructed from file
-        //todo The list of catering items displayed must be formatted so columns align, and all items are listed in `alphabetical order by product code` (eg. A1, A2, A3, A4, B1, B2, etc.).
 
-
-         */
-        //todo when selecting option (1) - method AddMoney() 
-        //todo when selecting option (2) - method AddToCart() & method DisplayList()
-        //todo handle exception if customer enters item code that does not exist and return them to purchase menu
-        //todo If a product is sold out, the customer is informed and returned to the Purchase menu (sub menu).
-        //todo If not enough of the product is in stock for the quantity the customer requested then they should be informed there is 'insufficient stock'.
-
-        //todo when selecting (3) - Receipt()  & ChangeBack() & Audit()
+        //todo SUBMENU when selecting option (1) - method AddMoney() 
+        //todo SUBMENU when selecting option (2) - method AddToCart() & method DisplayList()
+        //todo SUBMENU handle exception if customer enters item code that does not exist and return them to purchase menu
+        //todo SUBMENU If a product is sold out when trying to order, the customer is informed and returned to the Purchase menu (sub menu).
+        //todo SUBMENU If not enough of the product is in stock for the quantity the customer requested then they should be informed there is 'insufficient stock'.
+        //todo SUBMENU when selecting (3) - Receipt()  & ChangeBack() & Audit()
 
         public void MainMenu()
         {
@@ -72,13 +74,29 @@ namespace Capstone.Classes
             Console.WriteLine("(2) Select Products");
             Console.WriteLine("(3) Complete Transaction");
             Console.WriteLine();
-            Console.WriteLine("Current Account Balance: " + currentAccountBalance);
+            //Console.WriteLine("Current Account Balance: " + currentAccountBalance);
         }
+
+        
 
         public void DisplayList()
         {
+            CateringItem[] items;  
             Console.WriteLine("Product Code   Description   Qty   Price");
-            foreach (KeyValuePair kvp in )
+
+            items = catering.GetItems();
+
+            foreach (CateringItem item in items)
+            {
+                if (item.Quantity < 1)
+                {
+                    Console.WriteLine($"{item.ProductCode}  {item.Name}  SOLD OUT  {item.Price}");
+                }
+                else
+                {
+                    Console.WriteLine($"{item.ProductCode}  {item.Name}  {item.Quantity}  {item.Price}");
+                }
+            }
 
         }
 
