@@ -66,8 +66,8 @@ namespace Capstone.Classes
                         AddMoneyText();
                         break;
                     case "2":
-                        AddToCartText();
                         DisplayUpdatedListOfItems();
+                        AddToCartText();                        
                         break;
                     case "3":
                         done = true;
@@ -94,6 +94,7 @@ namespace Capstone.Classes
             Console.WriteLine("(3) Complete Transaction");
             Console.WriteLine();
             Console.WriteLine($"Current Account Balance: {Math.Round(catering.ReturnCurrentBalance(), 2):C}");
+            Console.WriteLine($"Shopping cart balance {catering.shoppingCartBalance:C}");
         }
 
         public void DisplayUpdatedListOfItems()
@@ -120,7 +121,7 @@ namespace Capstone.Classes
         public void AddMoneyText()
         {
             Console.WriteLine("Please insert bill (valid bill amounts are 1, 5, 10, 20, 50, 100): ");
-            int depositedBill = int.Parse(Console.ReadLine());
+            double depositedBill = double.Parse(Console.ReadLine());
             if ((depositedBill == 1) || (depositedBill == 5) || (depositedBill == 10) || (depositedBill == 20) || (depositedBill == 50) ||(depositedBill == 100))
             {
                 bool successfulDeposit = catering.AddMoney(depositedBill);
@@ -139,9 +140,36 @@ namespace Capstone.Classes
         {
             Console.Write("Please enter the product code: ");
             string productCodeInput = Console.ReadLine();
+            CateringItem chosenCateringItem = catering.ConvertCodeToItem(productCodeInput);
+            bool exists = catering.DoesProductExist(productCodeInput);
+            if (!exists)
+            {
+                Console.WriteLine("Product does not exist.");
+                return;
+            }
 
             Console.Write("Please enter the quantity: ");
             int quantityOfProducts = int.Parse(Console.ReadLine());
+
+            bool soldOut = catering.SoldOutChecker(chosenCateringItem, quantityOfProducts);
+            if (soldOut)
+            {
+                Console.WriteLine("Item is SOLD OUT!");
+                return;
+            }
+            bool haveStock = catering.SufficientStock(chosenCateringItem, quantityOfProducts);
+            if (!haveStock)
+            {
+                Console.WriteLine("Insufficient stock.");
+                return;
+            }
+            bool sufficentFunds = catering.SufficientFundsCheck(chosenCateringItem, quantityOfProducts);
+            if (!sufficentFunds)
+            {
+                Console.WriteLine("Insufficient funds to add items.");
+                return;
+            }
+            catering.MoveItemsToCart(chosenCateringItem, quantityOfProducts);
         }
     }
 }
