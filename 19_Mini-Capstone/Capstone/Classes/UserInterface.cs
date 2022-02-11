@@ -68,6 +68,8 @@ namespace Capstone.Classes
                         AddToCartText();                        
                         break;
                     case "3":
+                        DisplayReciept();
+                        catering.EndOfTransaction();
                         done = true;
                         break;
                     default:
@@ -169,6 +171,20 @@ namespace Capstone.Classes
                 return;
             }
             catering.MoveItemsToCart(chosenCateringItem, quantityOfProducts);
+        }
+
+        public void DisplayReciept()
+        {
+            string[] recieptInfo = catering.Receipt();
+            for(int i = 0; i < recieptInfo.Length; i++)
+            {
+                Console.WriteLine(recieptInfo[i]);
+            }
+            Console.WriteLine();
+            Console.WriteLine($"Total: {catering.AmountDue():C}");
+            Console.WriteLine();
+            Console.WriteLine(catering.ChangeToReturn());
+
         }
     }
 }

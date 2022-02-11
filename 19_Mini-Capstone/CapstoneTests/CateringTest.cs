@@ -175,12 +175,21 @@ namespace CapstoneTests
 
         [TestMethod]
 
-        //public void MoveItemsToCartTest()
-        //{
-        //    testObject.MoveItemsToCart(testObjectArray[2], 10);
+        public void IsItemInShoppingCartTest()
+        {
+            bool result = testObject.IsItemInShoppingCart(testObjectArray[2]);
 
-        //    Assert.AreEqual(testObject.ShoppingCart[0].Name, testObjectArray[2].Name);
-        //}
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+
+        public void MoveItemsToCartTest()
+        {
+            testObject.MoveItemsToCart(testObjectArray[2], 10);
+
+            Assert.AreEqual(testObject.ShoppingCart[0].Name, testObjectArray[2].Name);
+        }
     }
 
 }
