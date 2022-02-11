@@ -23,8 +23,6 @@ namespace Capstone.Classes
         public void RunInterface()
         {
 
-            catering.InitialListCreation();
-
             bool done = false;
             
             while (!done)
@@ -85,6 +83,7 @@ namespace Capstone.Classes
             Console.WriteLine("(1) Display Catering Items");
             Console.WriteLine("(2) Order");
             Console.WriteLine("(3) Quit");
+            Console.WriteLine();
         }
 
         public void SubMenuText()
@@ -94,7 +93,7 @@ namespace Capstone.Classes
             Console.WriteLine("(3) Complete Transaction");
             Console.WriteLine();
             Console.WriteLine($"Current Account Balance: {Math.Round(catering.ReturnCurrentBalance(), 2):C}");
-            Console.WriteLine($"Shopping cart balance {catering.shoppingCartBalance:C}");
+            Console.WriteLine();
         }
 
         public void DisplayUpdatedListOfItems()
@@ -115,12 +114,12 @@ namespace Capstone.Classes
                     Console.WriteLine($"{item.ProductCode}  {item.Name}  {item.Quantity}  {item.Price}");
                 }
             }
-
+            Console.WriteLine();
         }
 
         public void AddMoneyText()
         {
-            Console.WriteLine("Please insert bill (valid bill amounts are 1, 5, 10, 20, 50, 100): ");
+            Console.Write("Please insert bill (valid bill amounts are 1, 5, 10, 20, 50, 100): ");
             double depositedBill = double.Parse(Console.ReadLine());
             if ((depositedBill == 1) || (depositedBill == 5) || (depositedBill == 10) || (depositedBill == 20) || (depositedBill == 50) ||(depositedBill == 100))
             {
@@ -151,7 +150,7 @@ namespace Capstone.Classes
             Console.Write("Please enter the quantity: ");
             int quantityOfProducts = int.Parse(Console.ReadLine());
 
-            bool soldOut = catering.SoldOutChecker(chosenCateringItem, quantityOfProducts);
+            bool soldOut = catering.SoldOutChecker(chosenCateringItem);
             if (soldOut)
             {
                 Console.WriteLine("Item is SOLD OUT!");

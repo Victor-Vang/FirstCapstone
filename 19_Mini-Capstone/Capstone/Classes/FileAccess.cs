@@ -11,7 +11,6 @@ namespace Capstone.Classes
         // you will likley need to create it on your computer
         private string filePath = @"C:\Catering\cateringsystem.csv";
 
-        //Dictionary<string, CateringItem> items = new Dictionary<string, CateringItem>();
 
         public List<CateringItem> GetItemsFromFile()
         {

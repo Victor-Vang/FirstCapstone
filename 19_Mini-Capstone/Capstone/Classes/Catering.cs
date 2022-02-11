@@ -6,22 +6,22 @@ namespace Capstone.Classes
 {
     public class Catering
     {
+
+        public Catering()
+        {
+            ItemDirectory = Data.GetItemsFromFile();
+        }
+
         // This class should contain all the "work" for catering
 
         public List<CateringItem> ItemDirectory = new List<CateringItem>();
-        public List<CateringItem> shoppingCart = new List<CateringItem>();
-        public double shoppingCartBalance = 0;
 
+        public List<CateringItem> ShoppingCart = new List<CateringItem>();
 
-        public FileAccess data = new FileAccess();
+        public FileAccess Data = new FileAccess();
 
         private double Balance = 0;
 
-
-        public void InitialListCreation()
-        {
-            ItemDirectory = data.GetItemsFromFile();
-        }
 
         public CateringItem[] GetItems()
         {
@@ -83,7 +83,7 @@ namespace Capstone.Classes
             return result;
         }
 
-        public bool SoldOutChecker(CateringItem wantedItem, int quantityOfProduct)
+        public bool SoldOutChecker(CateringItem wantedItem)
         {
             foreach (CateringItem item in ItemDirectory)
             {
@@ -97,6 +97,7 @@ namespace Capstone.Classes
             }
             return false;
         }
+
         public bool SufficientStock(CateringItem wantedItem, int quantityOfProduct)
         {
             foreach (CateringItem item in ItemDirectory)
@@ -124,7 +125,7 @@ namespace Capstone.Classes
                 }
             }
 
-            if ((wantedItemsValue + shoppingCartBalance) < Balance)
+            if ((wantedItemsValue) < Balance)
             {
                 return true;
             }
@@ -134,29 +135,44 @@ namespace Capstone.Classes
             }
         }
 
-
-        public void MoveItemsToCart(CateringItem wantedItem, int quantityOfProduct)
+        public bool IsItemInShoppingCart(CateringItem wantedItem)
         {
-            foreach (CateringItem item in shoppingCart)
+            bool result = false;
+            foreach (CateringItem item in ShoppingCart)
             {
                 if (item.ProductCode == wantedItem.ProductCode)
                 {
-                    item.Quantity += quantityOfProduct;                    
+                    result = true;
                 }
-                else
+            }
+            return result;
+        }
+
+        public void MoveItemsToCart(CateringItem wantedItem, int quantityOfProduct)
+        {
+            if (IsItemInShoppingCart(wantedItem))
+            {
+                foreach (CateringItem item in ShoppingCart)
                 {
-                    wantedItem.Quantity = quantityOfProduct;
-                    shoppingCart.Add(wantedItem);
-                }                
+                    if (item.ProductCode == wantedItem.ProductCode)
+                    {
+                        item.Quantity += quantityOfProduct;
+                    }
+                }
+            }
+            else
+            {
+                wantedItem.Quantity = quantityOfProduct;
+                ShoppingCart.Add(wantedItem);
             }
             foreach (CateringItem item in ItemDirectory)
             {
                 if (item.ProductCode == wantedItem.ProductCode)
                 {
                     item.Quantity -= quantityOfProduct;
-                }                
+                }
             }
-            shoppingCartBalance += (wantedItem.Price * quantityOfProduct);
+            Balance -= (wantedItem.Price * quantityOfProduct);
         }
     }
 }
