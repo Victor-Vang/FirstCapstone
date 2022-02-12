@@ -14,17 +14,5 @@ namespace Capstone.Classes
         public string ProductCode { get; set; }
         public int Quantity { get; set; } = 25;
 
-
-          
-
-        //todo add reminder message based on product type
-        /*
-        * Beverages should recommend "Don't forget Ice."
-        * Entrees should recommend "Did you remember Dessert?"
-        * Desserts should recommend "Coffee goes with dessert."
-        * Appetizers should recommend "You might need extra plates."
-        */
-
-
     }
 }

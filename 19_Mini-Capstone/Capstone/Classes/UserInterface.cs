@@ -7,7 +7,6 @@ namespace Capstone.Classes
     public class UserInterface
     {
 
-        //private FileAccess data = new FileAccess();
 
         // This class provides all user communications, but not much else.
         // All the "work" of the application should be done elsewhere
@@ -100,8 +99,15 @@ namespace Capstone.Classes
 
         public void DisplayUpdatedListOfItems()
         {
-            CateringItem[] productsAvailable;  
-            Console.WriteLine("Product Code   Description   Qty   Price");
+            CateringItem[] productsAvailable;
+
+            string productCode = "Product Code";
+            string description = "Description";
+            string quantity = "Qty";
+            string price = "Price";
+            
+
+            Console.WriteLine($"{productCode.PadRight(15, ' ')}{description.PadRight(25, ' ')}{quantity.PadRight(10, ' ')}{price.PadRight(15, ' ')}");
 
             productsAvailable = catering.GetItems();
 
@@ -109,11 +115,15 @@ namespace Capstone.Classes
             {
                 if (item.Quantity < 1)
                 {
-                    Console.WriteLine($"{item.ProductCode}  {item.Name}  SOLD OUT  {item.Price}");
+                    string soldOut = "SOLD OUT";
+                    string priceAsString = item.Price.ToString("C");
+                    Console.WriteLine($"{item.ProductCode.PadRight(15, ' ')}{item.Name.PadRight(25, ' ')}{soldOut.PadRight(10, ' ')}{priceAsString.PadRight(15, ' ')}");
                 }
                 else
                 {
-                    Console.WriteLine($"{item.ProductCode}  {item.Name}  {item.Quantity}  {item.Price}");
+                    string quantityAsString = item.Quantity.ToString();
+                    string priceAsString = item.Price.ToString("C");
+                    Console.WriteLine($"{item.ProductCode.PadRight(15, ' ')}{item.Name.PadRight(25, ' ')}{quantityAsString.PadRight(10, ' ')}{priceAsString.PadRight(15, ' ')}");
                 }
             }
             Console.WriteLine();
@@ -122,7 +132,18 @@ namespace Capstone.Classes
         public void AddMoneyText()
         {
             Console.Write("Please insert bill (valid bill amounts are 1, 5, 10, 20, 50, 100): ");
-            double depositedBill = double.Parse(Console.ReadLine());
+            double depositedBill = 0;
+            try
+            {
+                double tempDepositedBill = double.Parse(Console.ReadLine());
+                depositedBill = tempDepositedBill;
+            }
+            catch (FormatException ex)
+            {
+                Console.WriteLine("Please enter a valid bill.");
+                return;
+            }
+
             if ((depositedBill == 1) || (depositedBill == 5) || (depositedBill == 10) || (depositedBill == 20) || (depositedBill == 50) ||(depositedBill == 100))
             {
                 bool successfulDeposit = catering.AddMoney(depositedBill);
@@ -140,7 +161,7 @@ namespace Capstone.Classes
         public void AddToCartText()
         {
             Console.Write("Please enter the product code: ");
-            string productCodeInput = Console.ReadLine();
+            string productCodeInput = Console.ReadLine().ToUpper();
             CateringItem chosenCateringItem = catering.ConvertCodeToItem(productCodeInput);
             bool exists = catering.DoesProductExist(productCodeInput);
             if (!exists)
@@ -150,7 +171,18 @@ namespace Capstone.Classes
             }
 
             Console.Write("Please enter the quantity: ");
-            int quantityOfProducts = int.Parse(Console.ReadLine());
+            int quantityOfProducts = 0;
+
+            try
+            {
+                int tempQuantityOfProducts = int.Parse(Console.ReadLine());
+                quantityOfProducts = tempQuantityOfProducts;
+            }
+            catch (FormatException ex)
+            {
+                Console.WriteLine("Invalid quantity.");
+                return;
+            }
 
             bool soldOut = catering.SoldOutChecker(chosenCateringItem);
             if (soldOut)
@@ -188,12 +220,3 @@ namespace Capstone.Classes
         }
     }
 }
-
-
-        //todo The list of catering items displayed must be formatted so columns align
-
-
-        //todo SUBMENU handle exception if customer enters item code that does not exist and return them to purchase menu
-        //todo SUBMENU If a product is sold out when trying to order, the customer is informed and returned to the Purchase menu (sub menu).
-        //todo SUBMENU If not enough of the product is in stock for the quantity the customer requested then they should be informed there is 'insufficient stock'.
-        //todo SUBMENU when selecting (3) - Receipt()  & ChangeBack() & Audit()

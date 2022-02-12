@@ -190,8 +190,33 @@ namespace CapstoneTests
 
             Assert.AreEqual(testObject.ShoppingCart[0].Name, testObjectArray[2].Name);
         }
-    }
 
+        [TestMethod]
+
+        public void ReceiptTest()
+        {
+            string[] result = testObject.Receipt();
+
+            CollectionAssert.AreEqual(new string[] { }, result);
+        }
+
+        [TestMethod]
+
+        public void AmountDueTest()
+        {
+            double result = testObject.AmountDue();
+
+            Assert.AreEqual(0, result);
+        }
+
+        [TestMethod]
+        public void ChangeToReturnTest()
+        {
+            string result = testObject.ChangeToReturn();
+
+            Assert.AreEqual("You receive in change.", result);
+        }
+    }
 }
 
 

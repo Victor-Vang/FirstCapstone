@@ -36,22 +36,32 @@ namespace Capstone.Classes
             return itemsFromTextFile;
         }
 
+        private string fileOutput = @"C:\Catering\Log.txt";
 
-
-
-        // This class should contain any and all details of access to files
-
-        //todo create a method that creates list of catering items that is constructed from file
-
-        //todo create AuditAddMoney() that writes to file -ADD MONEY
-        //todo create AuditGiveChange() that writes to file - GIVE CHANGE 
-        //todo create AuditItemsBought() that writes to file - NUMBER_ORDERED PRODUCT_NAME  PRODUCT_CODE
-
-
-
-
-
-
+        public void AuditAddMoney(double money, double balance)
+        {
+            using (StreamWriter sw = new StreamWriter(fileOutput, true))
+            {
+                sw.WriteLine($"{DateTime.Now} ADD MONEY: {money:C} {balance:C}");
+            }
+        }
+        
+        
+        public void AuditGiveChange(double change)
+        {
+            using (StreamWriter sw = new StreamWriter(fileOutput, true))
+            {
+                sw.WriteLine($"{DateTime.Now} GIVE CHANGE: {change:C} $0.00");
+            }
+        }
+        
+        
+        public void AuditItemsBought(int quantity, string item, string productCode, double priceOfItems, double balance)
+        {
+            using (StreamWriter sw = new StreamWriter(fileOutput, true))
+            {
+                sw.WriteLine($"{DateTime.Now} {quantity} {item} {productCode} {priceOfItems:C} {balance:C}");
+            }
+        }
     }
-
 }

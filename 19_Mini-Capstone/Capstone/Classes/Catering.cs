@@ -12,8 +12,6 @@ namespace Capstone.Classes
             ItemDirectory = Data.GetItemsFromFile();
         }
 
-        // This class should contain all the "work" for catering
-
         public List<CateringItem> ItemDirectory = new List<CateringItem>();
 
         public List<CateringItem> ShoppingCart = new List<CateringItem>();
@@ -36,9 +34,6 @@ namespace Capstone.Classes
             return result;
         }
 
-
-        // AddMoney Method
-
         public bool AddMoney(double money)
         {
             if (Balance + money > 1500)
@@ -48,6 +43,7 @@ namespace Capstone.Classes
             else
             {
                 Balance += money;
+                Data.AuditAddMoney(money, Balance);
                 return true;
             }
         }
@@ -166,7 +162,6 @@ namespace Capstone.Classes
             }
             else
             {
-                //quantityThatWeWanttoinsert = 
                 wantedItem.Quantity = quantityOfProduct;
                 ShoppingCart.Add(wantedItem);
             }
@@ -178,13 +173,14 @@ namespace Capstone.Classes
                 }
             }
             Balance -= (wantedItem.Price * quantityOfProduct);
+            Data.AuditItemsBought(quantityOfProduct, wantedItem.Name, wantedItem.ProductCode, (wantedItem.Price * quantityOfProduct), Balance);
         }
 
         public string[] Receipt()
         {
             string[] result = new string[ShoppingCart.Count];
 
-            for(int i = 0; i < ShoppingCart.Count; i++)
+            for (int i = 0; i < ShoppingCart.Count; i++)
             {
                 string itemType = "";
                 string message = "";
@@ -207,16 +203,20 @@ namespace Capstone.Classes
                         message = "Did you remember dessert.";
                         break;
                 }
-                        result[i] = ($"{ShoppingCart[i].Quantity}  {itemType}   {ShoppingCart[i].Name}   {ShoppingCart[i].Price:C}   {(ShoppingCart[i].Price * ShoppingCart[i].Quantity):C}   {message}");
-            }
 
-                return result;
+                string quantity = ShoppingCart[i].Quantity.ToString();
+                string price = ShoppingCart[i].Price.ToString("C");
+                string totalCost = (ShoppingCart[i].Price * ShoppingCart[i].Quantity).ToString("C");
+
+                result[i] = ($"{quantity.PadRight(5, ' ')}{itemType.PadRight(15, ' ')}{ShoppingCart[i].Name.PadRight(25, ' ')}{price.PadRight(8, ' ')}{totalCost.PadLeft(8, ' ')}  {message}");
+            }
+            return result;
         }
 
         public double AmountDue()
         {
             double result = 0;
-            foreach(CateringItem item in ShoppingCart)
+            foreach (CateringItem item in ShoppingCart)
             {
                 result += (item.Price * item.Quantity);
             }
@@ -238,10 +238,12 @@ namespace Capstone.Classes
             double runningTotal = sumOfCart + Balance;
             string result = "You received";
 
-            foreach(CateringItem item in ShoppingCart)
+            foreach (CateringItem item in ShoppingCart)
             {
-                sumOfCart += (item.Price * item.Quantity);
+                sumOfCart += Math.Round((item.Price * item.Quantity), 2);
             }
+
+            Data.AuditGiveChange(runningTotal);
 
             while (runningTotal >= 100)
             {
@@ -338,11 +340,3 @@ namespace Capstone.Classes
         }
     }
 }
-
-
-
- 
-
-
-//todo method Receipt() lists items purchased and change back amount 
-//todo method ChangeBack() gives the change back amount in # of 50's, 20's, dimes, etc. NO 100's! At end, update Current Account Balance to $0
